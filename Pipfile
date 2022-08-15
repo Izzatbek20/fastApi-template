@@ -6,8 +6,13 @@ name = "pypi"
 [packages]
 fastapi = {extras = ["all"], version = "*"}
 uvicorn = {extras = ["standard"], version = "*"}
-sqlalchemy = "*"
 environs = "*"
+sqlalchemy = "*"
+sqlalchemy-utils = "*"
+psycopg2 = "*"
+pyopenssl = "*"
+passlib = {extras = ["bcrypt"], version = "*"}
+python-jose = {extras = ["cryptography"], version = "*"}
 
 [dev-packages]
 

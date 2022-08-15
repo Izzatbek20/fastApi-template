@@ -6,8 +6,6 @@ env.read_env()
 
 # .env faylidagi ma`lumotlarni o`qib olamiz
 
-APP_NAME=env.str("APP_NAME")
-
 DB_CONNECTION=env.str("DB_CONNECTION")
 DB_HOST=env.str("DB_HOST")
 DB_PORT=env.str("DB_PORT")
