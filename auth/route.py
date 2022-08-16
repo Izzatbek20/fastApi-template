@@ -1,18 +1,17 @@
-from datetime import datetime, timedelta
 from typing import Union
-
 from fastapi import Depends, APIRouter, HTTPException, status
+
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from jose import JWTError, jwt
 from passlib.context import CryptContext
-from database.database import get_db
 from sqlalchemy.orm.session import Session
+
+from datetime import datetime, timedelta
+
+from database.database import get_db
 from models.User import USER
 from .schema import TokenData, Token, User
-
-SECRET_KEY = "09d25e094faa6ca2556c818166b7a9563b93f7099f6f0f4caa6cf63b88e8d3e7"
-ALGORITHM = "HS256"
-ACCESS_TOKEN_EXPIRE_MINUTES = 30
+from config.config import ACCESS_TOKEN_EXPIRE_MINUTES, ALGORITHM, SECRET_KEY
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
@@ -97,11 +96,3 @@ async def login_for_access_token(db: Session = Depends(get_db), form_data: OAuth
 @auth_route.get("/users/me/")
 async def read_users_me(current_user: User = Depends(get_current_active_user)):
     return current_user
-
-@auth_route.get("/users/me/items/")
-async def read_own_items(current_user: User = Depends(get_current_active_user)):
-    return [{"item_id": "Foo", "owner": current_user.username}]
-
-@auth_route.get("/items")
-async def read_own_items(current_user: User = Depends(get_current_active_user)):
-    return get_current_user
