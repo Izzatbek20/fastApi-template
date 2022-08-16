@@ -13,6 +13,7 @@ psycopg2 = "*"
 pyopenssl = "*"
 passlib = {extras = ["bcrypt"], version = "*"}
 python-jose = {extras = ["cryptography"], version = "*"}
+jinja2 = "*"
 
 [dev-packages]
 
