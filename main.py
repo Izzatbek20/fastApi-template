@@ -1,6 +1,11 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
+from fastapi.responses import HTMLResponse
+from fastapi.staticfiles import StaticFiles
+from fastapi.templating import Jinja2Templates
 
 from auth.route import auth_route
+
+templates = Jinja2Templates(directory="templates")
 
 description = """
 Bu FastAPI uchun shablon.
@@ -21,10 +26,11 @@ app = FastAPI(
     redoc_url='/redoc', # None o`chirish
 )
 
-@app.get('/')
-async def main():
-    return {
-        'message': 'Biz ishladik',
-    }
+app.mount("/static", StaticFiles(directory="static"), name="static")
+
+
+@app.get('/', response_class=HTMLResponse)
+async def main(request: Request):
+    return templates.TemplateResponse('index.html', {"request": request})
 
 app.include_router(auth_route)
