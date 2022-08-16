@@ -94,9 +94,9 @@ async def login_for_access_token(db: Session = Depends(get_db), form_data: OAuth
     return {"access_token": access_token, "token_type": "bearer"}
 
 
-@auth_route.get("/users/me/", response_model=User)
+@auth_route.get("/users/me/")
 async def read_users_me(current_user: User = Depends(get_current_active_user)):
-    print(current_user)
+    return current_user
 
 @auth_route.get("/users/me/items/")
 async def read_own_items(current_user: User = Depends(get_current_active_user)):
