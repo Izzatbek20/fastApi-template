@@ -3,10 +3,17 @@ from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 
-from auth.route import auth_route
+# Auth
+from auth.login.route import auth_route
+from auth.register.route import register_route
+
+# Boshqa routerlar
+
+
+
+
 
 templates = Jinja2Templates(directory="templates")
-
 description = """
 Bu FastAPI uchun shablon.
 
@@ -25,12 +32,18 @@ app = FastAPI(
     docs_url='/docs', # None o`chirish
     redoc_url='/redoc', # None o`chirish
 )
-
 app.mount("/static", StaticFiles(directory="static"), name="static")
 
 
-@app.get('/', response_class=HTMLResponse)
+@app.get('/', response_class=HTMLResponse, summary='Assosiy domain.')
 async def main(request: Request):
+    """
+    Assosiy domain.
+    """
     return templates.TemplateResponse('index.html', {"request": request})
 
+
+
+# Auth
 app.include_router(auth_route)
+app.include_router(register_route)
