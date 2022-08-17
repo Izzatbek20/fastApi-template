@@ -10,7 +10,7 @@ from datetime import datetime, timedelta
 
 from database.database import get_db
 from models.User import USER
-from .schema import TokenData, Token, User
+from auth.schema.login import TokenData, Token, User
 from config.config import ACCESS_TOKEN_EXPIRE_MINUTES, ALGORITHM, SECRET_KEY
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
@@ -75,15 +75,27 @@ async def get_current_active_user(current_user: User = Depends(get_current_user)
     return current_user
 
 
-auth_route = APIRouter()
+auth_route = APIRouter(tags=['Auth'])
 
-@auth_route.post("/token", response_model=Token)
+@auth_route.post("/token", response_model=Token, summary='Access Token uchun login qiling')
 async def login_for_access_token(db: Session = Depends(get_db), form_data: OAuth2PasswordRequestForm = Depends()):
+    """
+    Login qilish uchun yuborasiz:
+     * username: **string**
+     * password: **string**
+
+   Yuborishingiz shart emas:
+    * grant_type: **string**
+    * scope: **string**
+    * client_id: **string**
+    * client_secret: **string**
+
+    """
     user = authenticate_user(db, form_data.username, form_data.password)
     if not user:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Login yoki parol xato!",
+            detail=" yLoginoki parol xato!",
             headers={"WWW-Authenticate": "Bearer"},
         )
     access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
@@ -93,6 +105,9 @@ async def login_for_access_token(db: Session = Depends(get_db), form_data: OAuth
     return {"access_token": access_token, "token_type": "bearer"}
 
 
-@auth_route.get("/users/me/")
+@auth_route.get("/me", summary='O`zingiz haqingizda to`liq ma`lumot')
 async def read_users_me(current_user: User = Depends(get_current_active_user)):
+    """
+    Login qilib kirganingizda o'zingiz haqingizdagi ma'umotlaringizni shu yerdan olishingiz mumkun
+    """
     return current_user
