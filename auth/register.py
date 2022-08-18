@@ -6,7 +6,7 @@ from models.User import USER
 from sqlalchemy.orm.session import Session
 from database.db import get_db
 
-register_route = APIRouter(tags=['Auth'])
+register_route = APIRouter()
 
 @register_route.post('/register', response_model=User ,summary="Adminlarni ro`yxatga olish")
 async def register(data: Register, db: Session = Depends(get_db), current_user : User = Depends(get_current_active_user)):
@@ -14,7 +14,7 @@ async def register(data: Register, db: Session = Depends(get_db), current_user :
         fullname=data.fullname,
         phone=data.phone,
         username=data.username,
-        password=data.password,
+        password=data.password, # register chala
         token='pme',
         role='pme',
     )
