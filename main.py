@@ -3,6 +3,10 @@ from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 
+# Bazaga super admin qo`shish
+from database.db import SessionLocal
+from models.User import USER
+
 # Auth
 from auth.login import auth_route
 from auth.register import register_route
@@ -39,7 +43,28 @@ app.mount("/static", StaticFiles(directory="static"), name="static")
 async def main(request: Request):
     """
     Assosiy domain.
+
+    Bu api ishlaganda bazaga super user qo`shiladi auth uchun
+
+    Login: admin
+    Parol: secret
     """
+
+    try:
+        db = SessionLocal()
+        user_create = USER(
+            fullname='Super admin',
+            phone='+998908330620',
+            username='admin',
+            password='$2b$12$EixZaYVK1fsbw1ZfbX3OXePaWxn96p36WQoeG6Lruj3vjPGga31lW',
+            role='super_admin'
+        )
+        db.add(user_create)
+        db.commit()
+        db.refresh(user_create)
+    except:
+        print('Super admin oldinroq yaratilgan')
+
     return templates.TemplateResponse('index.html', {"request": request})
 
 
