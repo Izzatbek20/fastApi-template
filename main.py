@@ -1,3 +1,4 @@
+import uvicorn
 from fastapi import FastAPI, Request
 from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
@@ -71,4 +72,8 @@ async def main(request: Request):
 
 # Auth
 app.include_router(auth_route, tags=['Auth'])
-app.include_router(register_route, prefix="/auth", tags=['Auth'])
+app.include_router(register_route, tags=['Auth'])
+
+
+# if __name__ == "__main__":
+#     uvicorn.run(app, host="127.0.0.1", port=8000)
