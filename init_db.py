@@ -1,4 +1,4 @@
-from database.database import engine, Base, SessionLocal
+from database.db import engine, Base, SessionLocal
 from models.User import USER
 """
 

@@ -4,8 +4,8 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 
 # Auth
-from auth.login.route import auth_route
-from auth.register.route import register_route
+from auth.login import auth_route
+from auth.register import register_route
 
 # Boshqa routerlar
 
