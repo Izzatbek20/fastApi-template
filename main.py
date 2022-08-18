@@ -70,5 +70,5 @@ async def main(request: Request):
 
 
 # Auth
-app.include_router(auth_route)
-app.include_router(register_route)
+app.include_router(auth_route, tags=['Auth'])
+app.include_router(register_route, prefix="/auth", tags=['Auth'])

@@ -74,7 +74,7 @@ async def get_current_active_user(current_user: User = Depends(get_current_user)
         raise HTTPException(status_code=400, detail="Inactive user")
     return current_user
 
-auth_route = APIRouter(tags=['Auth'])
+auth_route = APIRouter()
 
 @auth_route.post("/token", response_model=Token, summary='Access Token uchun login qiling')
 async def login_for_access_token(db: Session = Depends(get_db), form_data: OAuth2PasswordRequestForm = Depends()):
@@ -103,7 +103,6 @@ async def login_for_access_token(db: Session = Depends(get_db), form_data: OAuth
     )
 
     return {"access_token": access_token, "token_type": "bearer"}
-
 
 @auth_route.get("/me", summary='O`zingiz haqingizda to`liq ma`lumot')
 async def read_users_me(current_user: User = Depends(get_current_active_user)):
