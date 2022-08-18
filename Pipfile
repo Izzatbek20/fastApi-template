@@ -14,6 +14,7 @@ pyopenssl = "*"
 passlib = {extras = ["bcrypt"], version = "*"}
 python-jose = {extras = ["cryptography"], version = "*"}
 jinja2 = "*"
+alembic = "*"
 
 [dev-packages]
 
