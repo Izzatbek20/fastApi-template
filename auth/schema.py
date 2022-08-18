@@ -15,3 +15,9 @@ class User(BaseModel):
     phone: Union[str, None] = None
     fullname: Union[str, None] = None
     status: Union[bool, None] = None
+    
+class Register(BaseModel):
+    username: str
+    password: str
+    phone: str
+    fullname: str

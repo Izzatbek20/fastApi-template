@@ -8,9 +8,9 @@ from sqlalchemy.orm.session import Session
 
 from datetime import datetime, timedelta
 
-from database.database import get_db
+from database.db import get_db
 from models.User import USER
-from auth.schema.login import TokenData, Token, User
+from auth.schema import TokenData, Token, User
 from config.config import ACCESS_TOKEN_EXPIRE_MINUTES, ALGORITHM, SECRET_KEY
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
@@ -74,7 +74,6 @@ async def get_current_active_user(current_user: User = Depends(get_current_user)
         raise HTTPException(status_code=400, detail="Inactive user")
     return current_user
 
-
 auth_route = APIRouter(tags=['Auth'])
 
 @auth_route.post("/token", response_model=Token, summary='Access Token uchun login qiling')
@@ -102,6 +101,7 @@ async def login_for_access_token(db: Session = Depends(get_db), form_data: OAuth
     access_token = create_access_token(
         data={"sub": user.username}, expires_delta=access_token_expires
     )
+
     return {"access_token": access_token, "token_type": "bearer"}
 
 
