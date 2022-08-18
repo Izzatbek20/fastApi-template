@@ -11,7 +11,6 @@ class USER(Base):
     password = Column(String(255), nullable=False)
     status = Column(Boolean, default=True)
     role = Column(String(50), nullable=False)
-    token = Column(String(255))
     created_at = Column(DateTime, default=datetime.datetime.utcnow)
     updated_at = Column(DateTime, onupdate=datetime.datetime.utcnow)
 
