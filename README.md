@@ -22,20 +22,25 @@ Migratsiya
 
 **Migratsiya uchun bazani manzilini ko`rsatishimiz kerak.**
 
-```sqlalchemy.url = postgresql+psycopg2://postgres:imm#0620@127.0.0.1:5432/fastapi```
+```
+sqlalchemy.url = postgresql+psycopg2://postgres:imm#0620@127.0.0.1:5432/fastapi
+```
 
 **Migratsiya uchun modelimizni ko'rsatib qo'yishimiz kerak**
 
 ```
-from myapp import mymodel
 from models import User
 ``` 
 
 
 **Migratsiya yaratiladi**
 
-```alembic revision --autogenerate -m "users"``` 
+```
+alembic revision --autogenerate -m "users"
+``` 
 
 **Migratsiyani bazaga yozish**
 
-```alembic upgrade head``` 
+```
+alembic upgrade head
+``` 
