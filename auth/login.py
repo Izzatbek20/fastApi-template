@@ -8,6 +8,7 @@ from sqlalchemy.orm.session import Session
 
 from datetime import datetime, timedelta
 
+from .schema import UserResponse
 from database.db import get_db
 from models.User import USER
 from auth.schema import TokenData, Token, User
@@ -104,9 +105,17 @@ async def login_for_access_token(db: Session = Depends(get_db), form_data: OAuth
 
     return {"access_token": access_token, "token_type": "bearer"}
 
-@auth_route.get("/me", summary='O`zingiz haqingizda to`liq ma`lumot')
+@auth_route.get("/me", summary='O`zingiz haqingizda to`liq ma`lumot', response_model=UserResponse)
 async def read_users_me(current_user: User = Depends(get_current_active_user)):
     """
     Login qilib kirganingizda o'zingiz haqingizdagi ma'umotlaringizni shu yerdan olishingiz mumkun
     """
-    return current_user
+    data = dict()
+    data["id"] = current_user.id
+    data["username"] = current_user.username
+    data["fullname"] = current_user.fullname
+    data["phone"] = current_user.phone
+    data["role"] = current_user.role
+    data["created_at"] = current_user.created_at
+    data["updated_at"] = current_user.updated_at
+    return data

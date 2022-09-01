@@ -20,7 +20,16 @@ class User(BaseModel):
     phone: Union[str, None] = None
     fullname: Union[str, None] = None
     status: Union[bool, None] = None
-    
+
+class UserResponse(BaseModel):
+    id: int
+    username: str
+    fullname: str
+    phone: str
+    role: str
+    created_at: str
+    updated_at: str
+
 class Register(BaseModel):
     username: str
     password: str
@@ -54,3 +63,6 @@ class Register(BaseModel):
         if len(v) != 13:
             raise ValueError('Bu telefon raqam emas')
         return v
+
+class RegisterResponse(BaseModel):
+    detail: str

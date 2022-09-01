@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 from .login import get_current_active_user, get_password_hash
-from .schema import User, Register
+from .schema import User, Register, RegisterResponse
 from models.User import USER
 from pydantic import ValidationError
 
@@ -16,26 +16,17 @@ class Role(str, Enum):
 register_route = APIRouter()
 
 
-@register_route.post('/register' ,summary="Adminlarni ro`yxatga olish", status_code=status.HTTP_201_CREATED)
+@register_route.post('/register' ,summary="Adminlarni ro`yxatga olish", response_model=RegisterResponse, status_code=status.HTTP_201_CREATED)
 async def register(data: Register, role: Role, db: Session = Depends(get_db), current_user : User = Depends(get_current_active_user)):
     """
     Yangi userni bazaga qo`shish
 
-    f'
-    :param data:
-    :param role:
-    :param db:
-    :param current_user:
-    :return:
+    * username: **string**
+    * password: **string**
+    * phone: **string** m: +998908330620
+    * fullname: **string**
     """
     try:
-        validate_username = db.query(USER).filter(
-            USER.username==data.username,
-        ).count()
-        validate_phone = db.query(USER).filter(
-            USER.phone==data.phone,
-        ).count()
-        # if validate_username == 0 and validate_phone == 0:
         user = USER(
             fullname=data.fullname,
             phone=data.phone,
@@ -51,11 +42,6 @@ async def register(data: Register, role: Role, db: Session = Depends(get_db), cu
             raise HTTPException(status_code=status.HTTP_201_CREATED, detail='Qo`shildi')
         else:
             raise HTTPException(status_code=status.HTTP_422_UNPROCESSABLE_ENTITY, detail=user)
-        # else:
-        #     if validate_phone > 0:
-        #         raise HTTPException(status_code=status.HTTP_422_UNPROCESSABLE_ENTITY, detail='Bunday telefon nomer aval ro`yxatga olingan.')
-        #     if validate_username > 0:
-        #         raise HTTPException(status_code=status.HTTP_422_UNPROCESSABLE_ENTITY, detail='Bunday telefon login aval ro`yxatga olingan.')
 
     except ValidationError as e:
         raise HTTPException(status_code=status.HTTP_422_UNPROCESSABLE_ENTITY, detail=e)
