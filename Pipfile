@@ -16,6 +16,7 @@ python-jose = {extras = ["cryptography"], version = "*"}
 jinja2 = "*"
 alembic = "*"
 pytest = "*"
+argparse = "*"
 
 [dev-packages]
 
