@@ -23,7 +23,8 @@ description = """
 Bu FastAPI uchun shablon.
 
 ## Auth
-* **None**
+* Login: **admin**
+* Parol: **secret**
 """
 
 app = FastAPI(
@@ -46,9 +47,6 @@ async def main(request: Request):
     Assosiy domain.
 
     Bu api ishlaganda bazaga super user qo`shiladi auth uchun
-
-    Login: admin
-    Parol: secret
     """
 
     try:
