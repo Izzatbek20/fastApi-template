@@ -3,6 +3,8 @@
 Izzatbek Majidov
 ```
 
+
+
 ##Bazani ulash
 **.env.example** faylidan nusxa olib **.env** faylini yaratamiz.
 
