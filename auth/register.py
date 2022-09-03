@@ -7,7 +7,6 @@ from pydantic import ValidationError
 from sqlalchemy.orm.session import Session
 from database.db import get_db
 from enum import Enum
-import json
 
 class Role(str, Enum):
     admin = 'admin'
